@@ -1,0 +1,83 @@
+<template>
+  <v-container>
+    <h1 class="title mt-4">Age Chart</h1>
+
+    <line-chart
+      v-if="!loading"
+      :chart-data="datacollection"
+      :options="options"
+      :height="height" position="relative" />
+  </v-container>
+</template>
+
+<script>
+import axios from "axios";
+import LineChart from './charts/LineChart';
+
+export default {
+  name: 'AgeChart',
+  components: {
+    LineChart,
+  },
+  data: () => ({
+    loading: true,
+    datacollection: null,
+    options: {
+      responsive: true,
+    },
+    height: 180,
+  }),
+  async mounted() {
+    await this.loadDatasets();
+  },
+  methods: {
+    async loadDatasets() {
+      try {
+        const { data } = await axios.get('https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/age_group/FeatureServer/0/query?f=json&where=1=1&groupByFieldsForStatistics=age_categ,sex&outStatistics=[{"statisticType":"count","onStatisticField":"FID","outStatisticFieldName":"value"}]&cacheHint=true');
+        const dataCol = {
+          labels: [],
+          datasets: [
+            {
+                label: 'MALE',
+                borderJoinStyle: 'round',
+                borderCapStyle: 'round',
+                backgroundColor: '#1962E6',
+                data: [],
+              },
+              {
+                label: 'FEMALE',
+                borderJoinStyle: 'round',
+                borderCapStyle: 'round',
+                backgroundColor: '#E41BAA',
+                data: [],
+              },
+          ],
+        };
+
+        for (const { attributes } of data.features) {
+          const { age_categ: ageCategory, value, sex } = attributes;
+
+          if (!dataCol.labels.includes(ageCategory)) {
+            dataCol.labels.push(ageCategory);
+          }
+
+          if (sex === 'Male') {
+            dataCol.datasets[0].data.push(value);
+          } else {
+            dataCol.datasets[1].data.push(value);
+          }
+        }
+
+        this.datacollection = dataCol;
+        this.loading = false;
+      } catch (err) {
+        console.log('Date error: ', err);
+      }
+    }
+  }
+}
+</script>
+
+<style lang="stylus" scoped>
+
+</style>
