@@ -6,8 +6,9 @@
     <!-- report -->
     <Report />
 
-    <!-- charts  -->
+    <!-- charts -->
     <DayChart />
+    <AgeChart />
     
   </v-container>
 </template>
@@ -15,12 +16,14 @@
 <script>
 import Report from "./Report";
 import DayChart from "./DayChart";
+import AgeChart from "./AgeChart";
 
 export default {
   name: 'Dashboard',
   components: {
     Report,
     DayChart,
+    AgeChart,
   }
 }
 </script>
