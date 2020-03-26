@@ -33,17 +33,15 @@ export default {
   name: 'Report',
   inject: ['theme'],
   data: () => ({
+    loading: true,
     totalcols: 6,
     reports: [],
   }),
-  computed: {
-    loading() {
-      return this.reports.length === 0;
-    }
-  },
   async mounted() {
     await this.getFirstRowData();
     await this.getSecondRowData();
+
+    this.loading = false;
   },
   methods: {
     async getFirstRowData() {
@@ -81,11 +79,25 @@ export default {
     async getSecondRowData() {
       try {
         const totalPUMs = await this.getTotalPUMs();
+        const totalPUIs = await this.getTotalPUIs();
+        const totalTested = await this.getTotalTested();
 
         this.reports.push({
           title: 'Persons Under Monitoring',
           color: 'orange--text text--lighten-1',
           total: parseInt(totalPUMs)
+        });
+
+        this.reports.push({
+          title: 'Persons Under Investigation',
+          color: 'red--text text--darken-1',
+          total: parseInt(totalPUIs)
+        });
+
+        this.reports.push({
+          title: 'Tested',
+          color: 'orange--text text--lighten-1',
+          total: parseInt(totalTested)
         });
 
       } catch (err) {
@@ -94,6 +106,18 @@ export default {
     },
     async getTotalPUMs() {
       const { data } = await axios.get('https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"pums","outStatisticFieldName":"value"}]');
+      const { features } = data;
+      const { attributes } = features[0];
+      return attributes.value;
+    },
+    async getTotalPUIs() {
+      const { data } = await axios.get('https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"puis","outStatisticFieldName":"value"}]');
+      const { features } = data;
+      const { attributes } = features[0];
+      return attributes.value;
+    },
+    async getTotalTested() {
+      const { data } = await axios.get('https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"tests","outStatisticFieldName":"value"}]');
       const { features } = data;
       const { attributes } = features[0];
       return attributes.value;
