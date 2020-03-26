@@ -41,53 +41,63 @@ export default {
       return this.reports.length === 0;
     }
   },
-  mounted() {
-    axios
-      .get('https://thevirustracker.com/free-api?countryTotal=PH')
-      .then((res) => {
-        const { countrydata } = res.data;
+  async mounted() {
+    await this.getFirstRowData();
+    await this.getSecondRowData();
+  },
+  methods: {
+    async getFirstRowData() {
+      try {
+        const { data } = await axios.get('https://thevirustracker.com/free-api?countryTotal=PH');
+        const { countrydata } = data;
         const {
           total_cases,
           total_deaths,
           total_recovered,
-          total_new_cases_today,
-          total_new_deaths_today,
-          total_serious_cases,
         } = countrydata[0];
 
-        this.reports = [
-          {
-            title: 'Infected',
-            color: 'purple--text text--lighten-2',
-            total: parseInt(total_cases)
-          },
-          {
-            title: 'Deaths',
-            color: 'red--text text--darken-1',
-            total: parseInt(total_deaths)
-          },
-          {
-            title: 'Recovered',
-            color: 'green--text text--lighten-1',
-            total: parseInt(total_recovered)
-          },
-          {
-            title: 'New Cases Today',
-            color: 'orange--text text--lighten-1',
-            total: parseInt(total_new_cases_today)
-          },
-          {
-            title: 'New Deaths Today',
-            color: 'red--text text--darken-1',
-            total: parseInt(total_new_deaths_today)
-          },
-          {
-            title: 'Serious Cases',
-            color: 'orange--text text--lighten-1',
-            total: parseInt(total_serious_cases)
-          },
-        ];
-      })
+        this.reports.push({
+          title: 'Infected',
+          color: 'purple--text text--lighten-2',
+          total: parseInt(total_cases)
+        });
+
+        this.reports.push({
+          title: 'Deaths',
+          color: 'red--text text--darken-1',
+          total: parseInt(total_deaths)
+        });
+
+        this.reports.push({
+          title: 'Recovered',
+          color: 'green--text text--lighten-1',
+          total: parseInt(total_recovered)
+        });
+
+      } catch (err) {
+        console.log('Data error: ', err);
+      }
+    },
+    async getSecondRowData() {
+      try {
+        const totalPUMs = await this.getTotalPUMs();
+
+        this.reports.push({
+          title: 'Persons Under Monitoring',
+          color: 'orange--text text--lighten-1',
+          total: parseInt(totalPUMs)
+        });
+
+      } catch (err) {
+        console.log('Data error: ', err);
+      }
+    },
+    async getTotalPUMs() {
+      const { data } = await axios.get('https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"pums","outStatisticFieldName":"value"}]');
+      const { features } = data;
+      const { attributes } = features[0];
+      return attributes.value;
+    }
   }
 }
 </script>
