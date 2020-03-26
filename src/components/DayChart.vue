@@ -12,6 +12,7 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
 import LineChart from './charts/LineChart';
 
 export default {
@@ -27,31 +28,22 @@ export default {
     },
     height: 180,
   }),
-  mounted () {
-    this.loadDatasets()
+  async mounted () {
+    await this.loadDatasets();
   },
   methods: {
-    loadDatasets () {
-      axios
-        .get('https://thevirustracker.com/free-api?countryTimeline=PH')
-        .then((res) => {
-          const { timelineitems } = res.data;
-          const timelineData = timelineitems[0];
-          const dataCol = {
-            labels: [],
-            datasets: [
-              {
-                label: 'INFECTED',
+    async loadDatasets() {
+      try {
+        const { data } = await axios.get('https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/confirmed/FeatureServer/0/query?f=json&where=1%3D1&outFields=*&orderByFields=date asc&resultOffset=0&resultRecordCount=2000&cacheHint=true');
+        const timelines = data.features;
+        const dataCol = {
+          labels: [],
+          datasets: [
+            {
+                label: 'ADMITTED',
                 borderJoinStyle: 'round',
                 borderCapStyle: 'round',
                 backgroundColor: '#ba68c8',
-                data: [],
-              },
-              {
-                label: 'DEATHS',
-                borderJoinStyle: 'round',
-                borderCapStyle: 'round',
-                backgroundColor: '#E53935',
                 data: [],
               },
               {
@@ -61,29 +53,32 @@ export default {
                 backgroundColor: '#66BB6A',
                 data: [],
               },
-            ],
-          };
+              {
+                label: 'DEATHS',
+                borderJoinStyle: 'round',
+                borderCapStyle: 'round',
+                backgroundColor: '#E53935',
+                data: [],
+              },
+          ],
+        };
 
-          for (const tData of Object.keys(timelineData)) {
-            if (tData !== 'stat') {
-              const {
-                new_daily_cases: cases,
-                new_daily_deaths: deaths,
-                total_recoveries: recovered,
-              } = timelineData[tData];
-              dataCol.labels.push(tData);
-              dataCol.datasets[0].data.push(cases);
-              dataCol.datasets[1].data.push((deaths < 0) ? 0 : deaths);
-              dataCol.datasets[2].data.push(recovered);
-            }
-          }
+        for (const { attributes } of timelines) {
+          const { date, admitted, recovered, deaths } = attributes;
+          const label = moment(date).format('MMM D YYYY');
+          dataCol.labels.push(label);
+          dataCol.datasets[0].data.push(admitted);
+          dataCol.datasets[1].data.push(recovered);
+          dataCol.datasets[2].data.push(deaths);
+        }
 
-          this.datacollection = dataCol;
+        this.datacollection = dataCol;
+        this.loading = false;
 
-          this.loading = false;
-        })
-        .catch((err) => console.log('data error: ', err))
-    },
+      } catch (err) {
+        console.log('Data error: ', err);
+      }
+    }
   },
   computed: {
     lineChartStyles() {
