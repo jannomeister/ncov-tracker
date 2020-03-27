@@ -1,29 +1,31 @@
 <template>
-  <v-skeleton-loader
-    :loading="loading"
-    height="200"
-    type="card"
-  >
-    <v-row no-gutters>
-      <template v-for="(report, n) in reports">
-        <v-col :key="n">
-          <v-card
-            class="pa-2"
-            outlined
-            tile
-          >
-            <h1 :class="['text-center', report.color]">{{ report.total }}</h1>
-            <p class="text-center title">{{ report.title }}</p>
-          </v-card>
-        </v-col>
-        <v-responsive
-          v-if="n === 2"
-          :key="`width-${n}`"
-          width="100%"
-        ></v-responsive>
-      </template>
-    </v-row>
-  </v-skeleton-loader>
+  <v-container>
+    <v-skeleton-loader
+      :loading="loading"
+      height="200"
+      type="card"
+    >
+      <v-row no-gutters>
+        <template v-for="(report, n) in reports">
+          <v-col :key="n">
+            <v-card
+              class="pa-2"
+              outlined
+              tile
+            >
+              <h1 :class="['text-center', report.color]">{{ report.total }}</h1>
+              <p class="text-center title">{{ report.title }}</p>
+            </v-card>
+          </v-col>
+          <v-responsive
+            v-if="n === 2"
+            :key="`width-${n}`"
+            width="100%"
+          ></v-responsive>
+        </template>
+      </v-row>
+    </v-skeleton-loader>
+  </v-container>
 </template>
 
 <script>
@@ -83,13 +85,13 @@ export default {
         const totalTested = await this.getTotalTested();
 
         this.reports.push({
-          title: 'Persons Under Monitoring',
+          title: 'PUMs',
           color: 'orange--text text--lighten-1',
           total: parseInt(totalPUMs)
         });
 
         this.reports.push({
-          title: 'Persons Under Investigation',
+          title: 'PUIs',
           color: 'red--text text--darken-1',
           total: parseInt(totalPUIs)
         });
