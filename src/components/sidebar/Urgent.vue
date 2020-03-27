@@ -4,42 +4,71 @@
     max-width="344"
     raised
   >
-    <v-card-title class="px-4 py-4">NMMC needs your support!</v-card-title>
-
-    <v-divider></v-divider>
-
-    <v-card-text class="body-1 text--primary">
-      NMMC is now declared as a COVID CENTER for Northern Mindanao. Their estimated PPEs consumption is about <span class="red--text">30,000</span> (full gear) per month
-    </v-card-text>
-
-    <v-card-actions>
-      <v-btn color="purple" text @click="show = !show">
-        See Full gear info
-      </v-btn>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        icon
-        @click="show = !show"
+    <v-card-title>NMMC needs your support!</v-card-title>
+    <v-card-subtitle>
+      <a
+        href="http://nmmc.doh.gov.ph"
+        class="green--text font-weight-bold"
+        target="_blank"
       >
-        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-      </v-btn>
-    </v-card-actions>
+        click here to visit their website
+      </a>
+    </v-card-subtitle>
 
-      <v-expand-transition>
-      <div v-show="show">
-        <v-divider></v-divider>
+    <v-divider :style="dividerStyles"></v-divider>
 
-        <v-card-text>
-          <v-list-item v-for="(fgItem, i) in fullGearItems" :key="i">
-            <v-list-item-content>
-              <v-list-item-title>{{ fgItem }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-card-text>
-      </div>
-    </v-expand-transition>
+    <v-list-item three-line>
+      <v-list-item-content>
+        <v-list-item-title class="title mb-1">Personal Protective Equipments</v-list-item-title>
+        <p v-for="(item, i) in fullGearItems" :key="i">
+          {{ item }}
+        </p>
+
+        <p class="mt-5 mb-2 font-weight-bold">You can contact these numbers:</p>
+        <p
+          v-for="(info, i) in ppeContactInfos"
+          :key="i"
+          class="green--text font-weight-bold mb-2"
+        >
+          {{ info }}
+        </p>
+      </v-list-item-content>
+    </v-list-item>
+
+    <v-divider :style="dividerStyles"></v-divider>
+
+    <v-list-item three-line class="p-0">
+      <v-list-item-content class="p-0">
+        <v-list-item-title class="title mb-1">Good, In kind or cash</v-list-item-title>
+
+        <p class="mt-5 mb-2 font-weight-bold">Kindly contact:</p>
+        <p
+          v-for="(info, i) in goodsContactInfos"
+          :key="i"
+          class="mb-2"
+        >
+          {{ info.name }} (<span class="green--text font-weight-bold">{{ info.contact }}</span>)
+        </p>
+      </v-list-item-content>
+    </v-list-item>
+
+    <v-divider :style="dividerStyles"></v-divider>
+
+    <v-list-item three-line>
+      <v-list-item-content>
+        <v-list-item-title class="title mb-1">Food Donations</v-list-item-title>
+
+        <p class="mt-5 mb-2 font-weight-bold">Kindly contact:</p>
+        <p
+          v-for="(info, i) in foodContactInfos"
+          :key="i"
+          class="mb-2"
+        >
+          {{ info.name }} (<span class="green--text font-weight-bold">{{ info.contact }}</span>)
+        </p>
+      </v-list-item-content>
+    </v-list-item>
+
   </v-card>
 </template>
 
@@ -59,6 +88,30 @@ export default {
       '1 surgical mask',
       '1 full surgical suit long sleeves'
     ],
+    ppeContactInfos: [
+      '(088) 856-5490',
+      '(08822) 721794',
+      '+62 882-2726-362'
+    ],
+    goodsContactInfos: [
+      {
+        name: 'Mr. Domingo Gubalane',
+        contact: '0926-451-5465'
+      },
+      {
+        name: 'Mr. Ian Alajid',
+        contact: '0926-527-1621'
+      },
+    ],
+    foodContactInfos: [
+      {
+        name: 'Mr. Marithel Moreno',
+        contact: '0917-708-0322'
+      },
+    ],
+    dividerStyles: {
+      borderColor: '#4CAF50',
+    }
   })
 }
 </script>
