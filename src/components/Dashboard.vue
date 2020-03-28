@@ -78,6 +78,18 @@ export default {
           grid-column: 9/13;
           grid-row: 1;
         }
+
+        @media screen and (min-width: 0) and (max-width: 1264px) {
+          &:nth-child(1) {
+            grid-column: 1/13;
+            grid-row: 1;
+          }
+
+          &:nth-child(2) {
+            grid-column: 1/13;
+            grid-row: 2;
+          }
+        }
       }
     }
   }
