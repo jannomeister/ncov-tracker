@@ -1,7 +1,5 @@
 <template>
   <v-container>
-    <h1 class="title mt-4">Age Chart</h1>
-
     <line-chart
       v-if="!loading"
       :chart-data="datacollection"
@@ -12,7 +10,7 @@
 
 <script>
 import axios from "axios";
-import LineChart from './charts/LineChart';
+import { LineChart } from './BaseChart';
 
 export default {
   name: 'AgeChart',

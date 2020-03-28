@@ -1,7 +1,5 @@
 <template>
   <v-container>
-    <h1 class="title mt-4">Day Chart</h1>
-
     <line-chart
       v-if="!loading"
       :chart-data="datacollection"
@@ -13,7 +11,7 @@
 <script>
 import axios from "axios";
 import moment from "moment";
-import LineChart from './charts/LineChart';
+import { LineChart } from './BaseChart';
 
 export default {
   name: 'DayChart',
@@ -21,7 +19,7 @@ export default {
     LineChart,
   },
   data: () => ({
-    loading: false,
+    loading: true,
     datacollection: null,
     options: {
       responsive: true,
@@ -40,26 +38,26 @@ export default {
           labels: [],
           datasets: [
             {
-                label: 'ADMITTED',
-                borderJoinStyle: 'round',
-                borderCapStyle: 'round',
-                backgroundColor: '#ba68c8',
-                data: [],
-              },
-              {
-                label: 'RECOVERED',
-                borderJoinStyle: 'round',
-                borderCapStyle: 'round',
-                backgroundColor: '#66BB6A',
-                data: [],
-              },
-              {
-                label: 'DEATHS',
-                borderJoinStyle: 'round',
-                borderCapStyle: 'round',
-                backgroundColor: '#E53935',
-                data: [],
-              },
+              label: 'ADMITTED',
+              borderJoinStyle: 'round',
+              borderCapStyle: 'round',
+              backgroundColor: '#ba68c8',
+              data: [],
+            },
+            {
+              label: 'RECOVERED',
+              borderJoinStyle: 'round',
+              borderCapStyle: 'round',
+              backgroundColor: '#66BB6A',
+              data: [],
+            },
+            {
+              label: 'DEATHS',
+              borderJoinStyle: 'round',
+              borderCapStyle: 'round',
+              backgroundColor: '#E53935',
+              data: [],
+            },
           ],
         };
 
