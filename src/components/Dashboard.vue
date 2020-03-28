@@ -5,7 +5,9 @@
         <h1 class="page-header text-center display-1">Phillipines Coronavirus Outbreak Tracker</h1>
         <h2 class=" text-center subtitle-1">The first case was reported on January 30th 2020. The latest Philippines coronavirus statistical charts and information.</h2>
       </div>
-
+      <template>
+        <v-divider></v-divider>
+      </template>
       <div class="page-body-container">
         <div class="grid">
           <div class="grid-item">
@@ -56,10 +58,10 @@ export default {
   .page-header-container {
     padding: 0.75rem;
     margin-top: .75rem;
-    margin-bottom: .75rem;
   }
 
   .page-body-container {
+    margin-top: 0.75rem;
     margin-bottom: 1.5rem;
 
     .grid {

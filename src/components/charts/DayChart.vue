@@ -1,14 +1,12 @@
 <template>
   <div>
-    <div id="day-chart">
-      <v-container>
-        <line-chart
-          v-if="!loading"
-          :chart-data="datacollection"
-          :options="options"
-          :height="height" position="relative" />
-      </v-container>
-    </div>
+    <v-container>
+      <line-chart
+        v-if="!loading"
+        :chart-data="datacollection"
+        :options="options"
+        :height="height" position="relative" />
+    </v-container>
   </div>
 </template>
 
@@ -107,15 +105,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  #day-chart {
-    overflow-x: hidden;
-
-    @media screen and (min-width: 0) and (max-width: 860px) {
-      overflow-x: scroll;
-    }
-  }
-
-  canvas{
-      width:1000px !important;
-    }
+  //
 </style>

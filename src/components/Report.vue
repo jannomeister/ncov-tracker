@@ -7,7 +7,15 @@
     >
       <v-row no-gutters>
         <template v-for="(report, n) in reports">
-          <v-col :key="n">
+          <v-col
+            :key="n"
+            cols="12"
+            xl="4"
+            lg="4"
+            md="4"
+            sm="4"
+            xs="12"
+          >
             <v-card
               class="pa-2"
               outlined
