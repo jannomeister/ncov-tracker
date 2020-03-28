@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-tabs centered background-color="grey lighten-4">
+    <v-tabs centered>
       <v-tabs-slider/>
       <v-tab>Day Chart</v-tab>
       <v-tab>Month Chart</v-tab>
