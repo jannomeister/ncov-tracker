@@ -1,11 +1,15 @@
 <template>
-  <v-container>
-    <line-chart
-      v-if="!loading"
-      :chart-data="datacollection"
-      :options="options"
-      :height="height" position="relative" />
-  </v-container>
+  <div>
+    <div id="day-chart">
+      <v-container>
+        <line-chart
+          v-if="!loading"
+          :chart-data="datacollection"
+          :options="options"
+          :height="height" position="relative" />
+      </v-container>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -22,9 +26,10 @@ export default {
     loading: true,
     datacollection: null,
     options: {
-      responsive: true
+      responsive: true,
+      maintainAspectRatio: false
     },
-    height: 180,
+    height: 500,
   }),
   async mounted () {
     await this.loadDatasets();
@@ -101,6 +106,16 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  #day-chart {
+    overflow-x: hidden;
 
+    @media screen and (min-width: 0) and (max-width: 860px) {
+      overflow-x: scroll;
+    }
+  }
+
+  canvas{
+      width:1000px !important;
+    }
 </style>
