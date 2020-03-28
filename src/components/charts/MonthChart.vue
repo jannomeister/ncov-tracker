@@ -23,8 +23,9 @@ export default {
     datacollection: null,
     options: {
       responsive: true,
+      maintainAspectRatio: false
     },
-    height: 180,
+    height: 500,
     position: 'relative',
   }),
   async mounted() {

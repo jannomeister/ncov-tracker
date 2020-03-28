@@ -22,8 +22,9 @@ export default {
     datacollection: null,
     options: {
       responsive: true,
+      maintainAspectRatio: false
     },
-    height: 180,
+    height: 500,
   }),
   async mounted() {
     await this.loadDatasets();
@@ -40,6 +41,10 @@ export default {
                 borderJoinStyle: 'round',
                 borderCapStyle: 'round',
                 backgroundColor: '#1962E6',
+                borderColor: "#1962E6",
+                borderWidth: 2,
+                pointRadius: 2,
+                fill: false,
                 data: [],
               },
               {
@@ -47,6 +52,10 @@ export default {
                 borderJoinStyle: 'round',
                 borderCapStyle: 'round',
                 backgroundColor: '#E41BAA',
+                borderColor: "#E41BAA",
+                borderWidth: 2,
+                pointRadius: 2,
+                fill: false,
                 data: [],
               },
           ],

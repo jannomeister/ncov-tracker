@@ -1,11 +1,13 @@
 <template>
-  <v-container>
-    <line-chart
-      v-if="!loading"
-      :chart-data="datacollection"
-      :options="options"
-      :height="height" position="relative" />
-  </v-container>
+  <div>
+    <v-container>
+      <line-chart
+        v-if="!loading"
+        :chart-data="datacollection"
+        :options="options"
+        :height="height" position="relative" />
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -23,8 +25,9 @@ export default {
     datacollection: null,
     options: {
       responsive: true,
+      maintainAspectRatio: false
     },
-    height: 180,
+    height: 500,
   }),
   async mounted () {
     await this.loadDatasets();
@@ -42,6 +45,10 @@ export default {
               borderJoinStyle: 'round',
               borderCapStyle: 'round',
               backgroundColor: '#ba68c8',
+              borderColor: "#ba68c8",
+              borderWidth: 1,
+              pointRadius: 2,
+              fill: false,
               data: [],
             },
             {
@@ -49,6 +56,10 @@ export default {
               borderJoinStyle: 'round',
               borderCapStyle: 'round',
               backgroundColor: '#66BB6A',
+              borderColor: "#66BB6A",
+              borderWidth: 1,
+              pointRadius: 2,
+              fill: false,
               data: [],
             },
             {
@@ -56,6 +67,10 @@ export default {
               borderJoinStyle: 'round',
               borderCapStyle: 'round',
               backgroundColor: '#E53935',
+              borderColor: "#E53935",
+              borderWidth: 1,
+              pointRadius: 2,
+              fill: false,
               data: [],
             },
           ],
@@ -89,6 +104,6 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+  //
 </style>
