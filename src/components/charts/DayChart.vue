@@ -22,7 +22,7 @@ export default {
     loading: true,
     datacollection: null,
     options: {
-      responsive: true,
+      responsive: true
     },
     height: 180,
   }),
@@ -42,6 +42,10 @@ export default {
               borderJoinStyle: 'round',
               borderCapStyle: 'round',
               backgroundColor: '#ba68c8',
+              borderColor: "#ba68c8",
+              borderWidth: 1,
+              pointRadius: 2,
+              fill: false,
               data: [],
             },
             {
@@ -49,6 +53,10 @@ export default {
               borderJoinStyle: 'round',
               borderCapStyle: 'round',
               backgroundColor: '#66BB6A',
+              borderColor: "#66BB6A",
+              borderWidth: 1,
+              pointRadius: 2,
+              fill: false,
               data: [],
             },
             {
@@ -56,6 +64,10 @@ export default {
               borderJoinStyle: 'round',
               borderCapStyle: 'round',
               backgroundColor: '#E53935',
+              borderColor: "#E53935",
+              borderWidth: 1,
+              pointRadius: 2,
+              fill: false,
               data: [],
             },
           ],

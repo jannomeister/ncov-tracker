@@ -1,23 +1,25 @@
 <template>
-  <div class="page-container">
-    <div class="page-header-container">
-      <h1 class="page-header text-center display-1">Phillipines coronavirus outbreak tracker</h1>
-      <h2 class=" text-center subtitle-1">The first case was reported on January 30th 2020. The latest Philippines coronavirus statistical charts and information</h2>
-    </div>
+  <div>
+    <div class="page-container">
+      <div class="page-header-container">
+        <h1 class="page-header text-center display-1">Phillipines Coronavirus Outbreak Tracker</h1>
+        <h2 class=" text-center subtitle-1">The first case was reported on January 30th 2020. The latest Philippines coronavirus statistical charts and information.</h2>
+      </div>
 
-    <div class="page-body-container">
-      <div class="grid">
-        <div class="grid-item">
-          <div id="report">
-            <Report />
+      <div class="page-body-container">
+        <div class="grid">
+          <div class="grid-item">
+            <div id="report">
+              <Report />
+            </div>
+            <div class="chart-tab">
+              <ChartTab />
+            </div>
           </div>
-          <div class="chart-tab">
-            <ChartTab />
-          </div>
-        </div>
-        <div class="grid-item">
-          <div id="sidebar">
-            <SideBar />
+          <div class="grid-item">
+            <div id="sidebar">
+              <SideBar />
+            </div>
           </div>
         </div>
       </div>
@@ -47,6 +49,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .page-container {
+    max-width: 1560px;
+    margin: 0 auto;
+  }
   .page-header-container {
     padding: 0.75rem;
     margin-top: .75rem;
