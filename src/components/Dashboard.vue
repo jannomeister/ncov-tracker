@@ -11,31 +11,32 @@
         <!-- report -->
         <Report />
 
-        <!-- charts -->
-        <DayChart />
-        <AgeChart />
+        <!-- tab charts -->
+        <ChartTab />
       </v-col>
 
       <v-col cols="4">
         <SideBar />
       </v-col>
     </v-row>
+
+    <Footer />
   </div>
 </template>
 
 <script>
 import Report from "./Report";
-import DayChart from "./DayChart";
-import AgeChart from "./AgeChart";
+import ChartTab from "./charts/ChartTab";
 import SideBar from "./sidebar/SideBar";
+import Footer from "./Footer";
 
 export default {
   name: 'Dashboard',
   components: {
     Report,
-    DayChart,
-    AgeChart,
+    ChartTab,
     SideBar,
+    Footer,
   }
 }
 </script>

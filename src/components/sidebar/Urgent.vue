@@ -20,14 +20,14 @@
     <v-list-item three-line>
       <v-list-item-content>
         <v-list-item-title class="title mb-1">Personal Protective Equipments</v-list-item-title>
-        <p v-for="(item, i) in fullGearItems" :key="i">
+        <p v-for="item in fullGearItems" :key="item">
           {{ item }}
         </p>
 
         <p class="mt-5 mb-2 font-weight-bold">You can contact these numbers:</p>
         <p
-          v-for="(info, i) in ppeContactInfos"
-          :key="i"
+          v-for="info in ppeContactInfos"
+          :key="info"
           class="green--text font-weight-bold mb-2"
         >
           {{ info }}
@@ -43,8 +43,8 @@
 
         <p class="mt-5 mb-2 font-weight-bold">Kindly contact:</p>
         <p
-          v-for="(info, i) in goodsContactInfos"
-          :key="i"
+          v-for="info in goodsContactInfos"
+          :key="info.name"
           class="mb-2"
         >
           {{ info.name }} (<span class="green--text font-weight-bold">{{ info.contact }}</span>)
@@ -60,8 +60,8 @@
 
         <p class="mt-5 mb-2 font-weight-bold">Kindly contact:</p>
         <p
-          v-for="(info, i) in foodContactInfos"
-          :key="i"
+          v-for="info in foodContactInfos"
+          :key="info.name"
           class="mb-2"
         >
           {{ info.name }} (<span class="green--text font-weight-bold">{{ info.contact }}</span>)
