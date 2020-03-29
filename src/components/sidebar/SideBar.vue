@@ -1,13 +1,13 @@
 <template>
   <v-container>
-    <Settings />
     <Urgent />
+    <Settings />
   </v-container>
 </template>
 
 <script>
-import Settings from "./Settings";
 import Urgent from "./Urgent";
+import Settings from "./Settings";
 
 export default {
   name: 'SideBar',

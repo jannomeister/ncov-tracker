@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mb-4" tile>
+  <v-card tile>
     <v-card-title>Settings</v-card-title>
     <v-card-subtitle>Supported settings in this web app</v-card-subtitle>
 

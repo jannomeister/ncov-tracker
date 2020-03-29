@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" raised>
+  <v-card  raised>
     <v-card-title>NMMC needs your support!</v-card-title>
     <v-card-subtitle>
       <a

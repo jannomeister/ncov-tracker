@@ -29,6 +29,14 @@ export default {
     },
     height: 500,
   }),
+  computed: {
+    lineChartStyles() {
+      return {
+        height: `${this.height}px`,
+        position: 'relative'
+      }
+    }
+  },
   async mounted () {
     await this.loadDatasets();
   },
@@ -39,50 +47,45 @@ export default {
         const timelines = data.features;
         const dataCol = {
           labels: [],
-          datasets: [
-            {
-              label: 'ADMITTED',
-              borderJoinStyle: 'round',
-              borderCapStyle: 'round',
-              backgroundColor: '#ba68c8',
-              borderColor: "#ba68c8",
-              borderWidth: 1,
-              pointRadius: 2,
-              fill: false,
-              data: [],
-            },
-            {
-              label: 'RECOVERED',
-              borderJoinStyle: 'round',
-              borderCapStyle: 'round',
-              backgroundColor: '#66BB6A',
-              borderColor: "#66BB6A",
-              borderWidth: 1,
-              pointRadius: 2,
-              fill: false,
-              data: [],
-            },
-            {
-              label: 'DEATHS',
-              borderJoinStyle: 'round',
-              borderCapStyle: 'round',
-              backgroundColor: '#E53935',
-              borderColor: "#E53935",
-              borderWidth: 1,
-              pointRadius: 2,
-              fill: false,
-              data: [],
-            },
-          ],
+          datasets: this.initialDatasets(),
         };
 
-        for (const { attributes } of timelines) {
-          const { date, admitted, recovered, deaths } = attributes;
+        let adNegative = 0;
+        let recNegative = 0;
+        let deathNegative = 0;
+
+        for (let i = 0; i < timelines.length; i++) {
+          const { date, admitted, recovered, deaths } = timelines[i].attributes;
           const label = moment(date).format('MMM D YYYY');
           dataCol.labels.push(label);
-          dataCol.datasets[0].data.push(admitted);
-          dataCol.datasets[1].data.push(recovered);
-          dataCol.datasets[2].data.push(deaths);
+
+          const timeline = timelines[i - 1];
+          const admittedYesterday = (timeline) ? timeline.attributes.admitted : 0;
+          const recoveredYesterday = (timeline) ? timeline.attributes.recovered : 0;
+          const deathsYesterday = (timeline) ? timeline.attributes.deaths : 0;
+
+          let admittedToday = this.calcToday(adNegative, admitted, admittedYesterday);
+          let recoveredToday = this.calcToday(recNegative, recovered, recoveredYesterday);
+          let deathsToday = this.calcToday(deathNegative, deaths, deathsYesterday);
+
+          if (admittedToday < 0) {
+            adNegative = admittedToday;
+            admittedToday = 0;
+          }
+
+          if (recoveredToday < 0) {
+            recNegative = recoveredToday;
+            recoveredToday = 0;
+          }
+
+          if (deathsToday < 0) {
+            deathNegative = deathsToday;
+            deathsToday = 0;
+          }
+
+          dataCol.datasets[0].data.push(admittedToday);
+          dataCol.datasets[1].data.push(recoveredToday);
+          dataCol.datasets[2].data.push(deathsToday);
         }
 
         this.datacollection = dataCol;
@@ -91,16 +94,48 @@ export default {
       } catch (err) {
         console.log('Data error: ', err);
       }
+    },
+    calcToday(negative, recovered, yesterday) {
+      return (yesterday === 0) ? recovered + negative : recovered - yesterday;
+    },
+    initialDatasets() {
+      return [
+        {
+          label: 'ADMITTED',
+          borderJoinStyle: 'round',
+          borderCapStyle: 'round',
+          backgroundColor: '#ba68c8',
+          borderColor: "#ba68c8",
+          borderWidth: 1,
+          pointRadius: 2,
+          fill: false,
+          data: [],
+        },
+        {
+          label: 'RECOVERED',
+          borderJoinStyle: 'round',
+          borderCapStyle: 'round',
+          backgroundColor: '#66BB6A',
+          borderColor: "#66BB6A",
+          borderWidth: 1,
+          pointRadius: 2,
+          fill: false,
+          data: [],
+        },
+        {
+          label: 'DEATHS',
+          borderJoinStyle: 'round',
+          borderCapStyle: 'round',
+          backgroundColor: '#E53935',
+          borderColor: "#E53935",
+          borderWidth: 1,
+          pointRadius: 2,
+          fill: false,
+          data: [],
+        },
+      ]
     }
   },
-  computed: {
-    lineChartStyles() {
-      return {
-        height: `${this.height}px`,
-        position: 'relative'
-      }
-    }
-  }
 }
 </script>
 
