@@ -65,20 +65,20 @@ export default {
         } = countrydata[0];
 
         this.reports.push({
-          title: 'Infected',
-          color: 'purple--text text--lighten-2',
+          title: 'Confirmed',
+          color: 'teal--text lighten-2',
           total: parseInt(total_cases)
         });
 
         this.reports.push({
           title: 'Deaths',
-          color: 'red--text text--darken-1',
+          color: 'red--text darken-1',
           total: parseInt(total_deaths)
         });
 
         this.reports.push({
           title: 'Recovered',
-          color: 'green--text text--lighten-1',
+          color: 'green--text lighten-1',
           total: parseInt(total_recovered)
         });
 

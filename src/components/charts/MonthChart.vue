@@ -89,22 +89,84 @@ export default {
       return labels;
     },
     generateDatasets(labels, datasets, timelines) {
+      const totalAdmittedPerMonth = this.totalPerMonth(labels, timelines, 'admitted');
+      const totalRecoveredPerMonth = this.totalPerMonth(labels, timelines, 'recovered');
+      const totalDeathsPerMonth = this.totalPerMonth(labels, timelines, 'deaths');
+
       for (const { attributes } of timelines) {
-        const { date, admitted, recovered, deaths } = attributes;
+        const { date } = attributes;
         const month = this.getMonth(moment(date).month());
         const labelIndex = labels.indexOf(month);
 
         if (labelIndex > -1) {
-          const admittedData = datasets[0].data[labelIndex] | 0;
-          const recoveredData = datasets[1].data[labelIndex] | 0;
-          const deathsData = datasets[2].data[labelIndex] | 0;
-          datasets[0].data[labelIndex] = admittedData + admitted;
-          datasets[1].data[labelIndex] = recoveredData + recovered;
-          datasets[2].data[labelIndex] = deathsData + deaths;
+          datasets[0].data[labelIndex] = totalAdmittedPerMonth[month];
+          datasets[1].data[labelIndex] = totalRecoveredPerMonth[month];
+          datasets[2].data[labelIndex] = totalDeathsPerMonth[month];
         }
       }
 
       return datasets;
+    },
+    totalPerMonth(labels, timelines, type) {
+      const months = this.valuesPerMonth(labels, timelines, type);
+      const monthValues = [];
+
+      for (const key of Object.keys(months)) {
+        monthValues.push(...months[key]);
+      } 
+
+      const newArr = [];
+      let negative = 0;
+
+      for (let i = 0; i < monthValues.length; i++) {
+        const values = monthValues[i - 1];
+        const yesterday = (values) ? values : 0;
+        const recovered = monthValues[i];
+        
+        let today = (yesterday === 0) ? recovered + negative : recovered - yesterday;
+        
+        if (today < 0) {
+          negative = today;
+          today = 0;
+        }
+        
+        newArr.push(today);
+      }
+
+      let startIndex = 0;
+      let endIndex = 0;
+
+      for (const key of Object.keys(months)) {
+        
+        endIndex = startIndex + months[key].length;
+
+        const data = newArr.slice(startIndex, endIndex);
+        
+        startIndex = endIndex;
+        
+        months[key] = data.reduce((total, num) => total + num);
+      }
+
+      return months;
+    },
+    valuesPerMonth(labels, timelines, type) {
+      const months = {};
+
+      for (const { attributes } of timelines) {
+        const report = attributes[type]; // deaths, admited
+        const month = this.getMonth(moment(attributes.date).month());
+        const labelIndex = labels.indexOf(month);
+
+        if (labelIndex > -1) {
+          if (!Array.isArray(months[month])) {
+            months[month] = [];
+          }
+
+          months[month].push(report)
+        }
+      }
+
+      return months;
     },
     getMonth(index) {
       const months = [
