@@ -1,5 +1,5 @@
 <template>
-  <v-card tile>
+  <v-card tile class="mt-4">
     <v-card-title>Settings</v-card-title>
     <v-card-subtitle>Supported settings in this web app</v-card-subtitle>
 
@@ -11,7 +11,6 @@
       </v-list-item-content>
     </v-list-item>
 
-    
   </v-card>
 </template>
 
