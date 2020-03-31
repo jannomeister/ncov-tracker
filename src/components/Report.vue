@@ -45,93 +45,81 @@ export default {
   data: () => ({
     loading: true,
     totalcols: 6,
-    reports: [],
+    polling: null,
+    reports: [
+      {
+        title: 'Confirmed',
+        color: 'teal--text lighten-2',
+        total: 0
+      },
+      {
+        title: 'Deaths',
+        color: 'red--text darken-1',
+        total: 0
+      },
+      {
+        title: 'Recovered',
+        color: 'green--text lighten-1',
+        total: 0
+      },
+      {
+        title: 'PUMs',
+        color: 'orange--text text--lighten-1',
+        total: 0
+      },
+      {
+        title: 'PUIs',
+        color: 'red--text text--darken-1',
+        total: 0
+      },
+      {
+        title: 'Tested',
+        color: 'orange--text text--lighten-1',
+        total: 0
+      },
+    ],
   }),
-  async mounted() {
-    await this.getFirstRowData();
-    await this.getSecondRowData();
+  mounted() {
+    this.loadReport();
 
     this.loading = false;
   },
   methods: {
-    async getFirstRowData() {
-      try {
-        const { data } = await axios.get('https://thevirustracker.com/free-api?countryTotal=PH');
-        const { countrydata } = data;
-        const {
-          total_cases,
-          total_deaths,
-          total_recovered,
-        } = countrydata[0];
+    loadReport() {
+      this.getData();
+      this.polling = setInterval(this.getData, 1000 * 60 * 60);
+    },
+    getData() {
+      const url = 'https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0';
 
-        this.reports.push({
-          title: 'Confirmed',
-          color: 'teal--text lighten-2',
-          total: parseInt(total_cases)
-        });
+      Promise.all([
+        axios.get(`${url}/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"confirmed","outStatisticFieldName":"value"}]`),
+        axios.get(`${url}/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"recovered","outStatisticFieldName":"value"}]`),
+        axios.get(`${url}/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"deaths","outStatisticFieldName":"value"}]`),
+        axios.get(`${url}/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"pums","outStatisticFieldName":"value"}]`),
+        axios.get(`${url}/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"puis","outStatisticFieldName":"value"}]`),
+        axios.get(`${url}/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"tests","outStatisticFieldName":"value"}]`),
+      ])
+      .then((rawDatas) => this.formatData(rawDatas))
+      .then((data) => {
+        for (let i = 0; i < data.length; i++) {
+          this.reports[i].total = data[i];
+        }
+      });
+    },
+    formatData(rawDatas) {
+      const finalData = [];
 
-        this.reports.push({
-          title: 'Deaths',
-          color: 'red--text darken-1',
-          total: parseInt(total_deaths)
-        });
-
-        this.reports.push({
-          title: 'Recovered',
-          color: 'green--text lighten-1',
-          total: parseInt(total_recovered)
-        });
-
-      } catch (err) {
-        console.log('Data error: ', err);
+      for (const { data } of rawDatas) {
+        const { features } = data;
+        finalData.push(features[0].attributes.value);
       }
-    },
-    async getSecondRowData() {
-      try {
-        const totalPUMs = await this.getTotalPUMs();
-        const totalPUIs = await this.getTotalPUIs();
-        const totalTested = await this.getTotalTested();
 
-        this.reports.push({
-          title: 'PUMs',
-          color: 'orange--text text--lighten-1',
-          total: parseInt(totalPUMs)
-        });
-
-        this.reports.push({
-          title: 'PUIs',
-          color: 'red--text text--darken-1',
-          total: parseInt(totalPUIs)
-        });
-
-        this.reports.push({
-          title: 'Tested',
-          color: 'orange--text text--lighten-1',
-          total: parseInt(totalTested)
-        });
-
-      } catch (err) {
-        console.log('Data error: ', err);
-      }
-    },
-    async getTotalPUMs() {
-      const { data } = await axios.get('https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"pums","outStatisticFieldName":"value"}]');
-      const { features } = data;
-      const { attributes } = features[0];
-      return attributes.value;
-    },
-    async getTotalPUIs() {
-      const { data } = await axios.get('https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"puis","outStatisticFieldName":"value"}]');
-      const { features } = data;
-      const { attributes } = features[0];
-      return attributes.value;
-    },
-    async getTotalTested() {
-      const { data } = await axios.get('https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"tests","outStatisticFieldName":"value"}]');
-      const { features } = data;
-      const { attributes } = features[0];
-      return attributes.value;
+      return finalData;
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.polling);
   }
 }
 </script>
