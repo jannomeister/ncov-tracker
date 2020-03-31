@@ -1,5 +1,5 @@
 <template>
-  <v-list max-width="480" max-height="1100" color="overflow-y-auto" three-line>
+  <v-list max-width="480" max-height="1100" class="overflow-y-auto" three-line>
       <template v-for="(item, index) in items">
         <v-subheader
           v-if="item.header"
