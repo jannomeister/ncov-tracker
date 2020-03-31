@@ -1,5 +1,5 @@
 <template>
-  <v-list max-width="480" max-height="1100" color="overflow-y-auto" three-line>
+  <v-list max-width="480" max-height="1100" class="overflow-y-auto" three-line>
       <template v-for="(item, index) in items">
         <v-subheader
           v-if="item.header"
@@ -49,11 +49,19 @@ export default {
       { header: 'What\'s new' },
       { divider: true },
       {
+        title: 'Cases per region',
+        description: 'You can now see the total number of confirmed cases by region in the sidebar. The tracker is now more helpful to keep you updated with the current situation.',
+        source: 'https://github.com/jannomeister/ncov-tracker/pull/29',
+        date: 'April 1st'
+      },
+      { divider: true },
+      {
         title: 'In case you missed it',
         description: 'Some minor improvements with the graphs visualization and we fixed some minore data inconsistencies. The tracker is now more robust and dependable.',
         source: 'https://github.com/jannomeister/ncov-tracker/pull/25',
         date: 'March 29th'
       },
+      { divider: true },
       {
         title: 'Responsiveness',
         description: 'The app is now more beautiful when you are accessing it in small screen devices.',

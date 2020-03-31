@@ -31,6 +31,11 @@ export default {
     ChartTab,
     SideBar,
     Footer,
+  },
+  mounted() {
+    if (localStorage.darkMode) {
+      this.$vuetify.theme.dark = (localStorage.darkMode === 'true') ? true : false;
+    }
   }
 }
 </script>

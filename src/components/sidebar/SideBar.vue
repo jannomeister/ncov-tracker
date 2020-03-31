@@ -1,19 +1,19 @@
 <template>
   <v-container>
+    <Regions />
     <Urgent />
-    <Settings />
   </v-container>
 </template>
 
 <script>
 import Urgent from "./Urgent";
-import Settings from "./Settings";
+import Regions from "./Regions";
 
 export default {
   name: 'SideBar',
   components: {
     Urgent,
-    Settings,
+    Regions,
   }
 }
 </script>

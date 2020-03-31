@@ -1,5 +1,5 @@
 <template>
-  <v-card tile class="mt-4">
+  <v-card tile width="450" class="mt-4">
     <v-card-title>Settings</v-card-title>
     <v-card-subtitle>Supported settings in this web app</v-card-subtitle>
 
@@ -27,9 +27,7 @@ export default {
   },
   mounted() {
     if (localStorage.darkMode) {
-      const { darkMode } = localStorage;
-      this.darkMode = (darkMode === 'true') ? true : (darkMode === 'false') ? false : false;
-      this.$vuetify.theme.dark = this.darkMode;
+      this.darkMode = (localStorage.darkMode === 'true') ? true : false;
     }
   },
   watch: {
