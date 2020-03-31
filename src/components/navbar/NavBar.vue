@@ -31,5 +31,8 @@ export default {
   components: {
     Changelog,
   },
+  data: () => ({
+    menu: false,
+  }),
 }
 </script>
