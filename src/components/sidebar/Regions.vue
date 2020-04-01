@@ -16,19 +16,7 @@
           </div>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <v-list max-height="400" class="overflow-y-auto" three-line>
-            <template v-for="(patient, index) in region.patients">
-              <div :key="index">
-                <v-divider></v-divider> 
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title>{{ patient.caseID }}</v-list-item-title>
-                    <v-list-item-subtitle>{{ patient.facility }}</v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-              </div>
-            </template>
-          </v-list>
+          <Patients :lists="region.patients"/>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -37,9 +25,13 @@
 
 <script>
 import axios from 'axios';
+import Patients from './Patients';
 
 export default {
   name: 'Regions',
+  components: {
+    Patients,
+  },
   data: () => ({
     loading: true,
     isActive: false,
