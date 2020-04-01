@@ -94,8 +94,8 @@ export default {
 
       Promise.all([
         axios.get(`${url}/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"confirmed","outStatisticFieldName":"value"}]`),
-        axios.get(`${url}/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"recovered","outStatisticFieldName":"value"}]`),
         axios.get(`${url}/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"deaths","outStatisticFieldName":"value"}]`),
+        axios.get(`${url}/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"recovered","outStatisticFieldName":"value"}]`),
         axios.get(`${url}/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"pums","outStatisticFieldName":"value"}]`),
         axios.get(`${url}/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"puis","outStatisticFieldName":"value"}]`),
         axios.get(`${url}/query?f=json&where=1=1&outStatistics=[{"statisticType":"sum","onStatisticField":"tests","outStatisticFieldName":"value"}]`),
