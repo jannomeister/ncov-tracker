@@ -49,6 +49,12 @@ export default {
       { header: 'What\'s new' },
       { divider: true },
       {
+        title: 'In cased you missed it',
+        description: 'You can now see more info regarding the patient of each region. His/Her gender, age, address and the status of the patient. The tracker is now more helpful to keep you updated with the current situation.',
+        source: 'https://github.com/jannomeister/ncov-tracker/pull/32',
+        date: 'April 1st'
+      },
+      {
         title: 'Cases per region',
         description: 'You can now see the total number of confirmed cases by region in the sidebar. The tracker is now more helpful to keep you updated with the current situation.',
         source: 'https://github.com/jannomeister/ncov-tracker/pull/29',
