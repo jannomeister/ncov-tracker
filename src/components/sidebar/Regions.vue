@@ -113,6 +113,16 @@ export default {
       },
       {
         id: 16,
+        name: 'REGION_XIII',
+        patients: []
+      },
+      {
+        id: 17,
+        name: 'ARMM',
+        patients: []
+      },
+      {
+        id: 18,
         name: 'OTHERS',
         patients: []
       }
@@ -132,11 +142,11 @@ export default {
 
           if (foundRegion) {
             foundRegion.patients.push(patient);
-          } else {
-            const other = this.regions[this.regions.length - 1];
-
-            other.patients.push(patient);
           }
+
+        } else {
+          const other = this.regions[this.regions.length - 1];
+          other.patients.push(patient);
         }
       }
 
